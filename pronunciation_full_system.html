@@ -1,0 +1,344 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary);font-size:14px}
+.nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.nav button{padding:6px 13px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:12px;color:var(--color-text-secondary)}
+.nav button.active{background:#E6F1FB;color:#0C447C;border-color:#185FA5;font-weight:500}
+.sec{display:none}.sec.active{display:block}
+h2{font-size:18px;font-weight:500;margin-bottom:1rem}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:.875rem}
+.rule{border-left:3px solid #378ADD;padding:7px 11px;margin:6px 0;border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;background:var(--color-background-secondary)}
+.rule.g{border-left-color:#639922}.rule.a{border-left-color:#BA7517}.rule.r{border-left-color:#E24B4A}
+.tag{display:inline-block;padding:1px 7px;border-radius:99px;font-size:11px;font-weight:500;margin:1px}
+.t-iz{background:#E1F5EE;color:#085041}.t-s{background:#E6F1FB;color:#0C447C}.t-z{background:#FAEEDA;color:#633806}
+.t-id{background:#E6F1FB;color:#0C447C}.t-t{background:#EAF3DE;color:#27500A}.t-d{background:#FAEEDA;color:#633806}
+.ph{display:inline-block;background:#EEEDFE;color:#3C3489;padding:1px 7px;border-radius:var(--border-radius-md);font-family:var(--font-mono);font-size:13px;font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:7px 9px;background:var(--color-background-secondary);font-weight:500;border-bottom:0.5px solid var(--color-border-secondary)}
+td{padding:6px 9px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top}
+.tip{background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:7px 11px;font-size:12px;margin-top:8px;color:var(--color-text-secondary)}
+
+.quiz-wrap{margin-bottom:1rem}
+.quiz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:6px}
+.quiz-title{font-size:15px;font-weight:500}
+.score-bar{height:5px;background:var(--color-background-secondary);border-radius:99px;margin-bottom:.5rem;overflow:hidden}
+.score-fill{height:100%;background:#639922;border-radius:99px;transition:width .3s}
+.score-txt{font-size:12px;color:var(--color-text-secondary);margin-bottom:.875rem}
+.qbox{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:.875rem;margin-bottom:.75rem}
+.qbox .qnum{font-size:11px;color:var(--color-text-tertiary);margin-bottom:4px}
+.qbox .qtxt{font-size:13px;font-weight:500;margin-bottom:.625rem;line-height:1.5}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.opt{padding:6px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:transparent;cursor:pointer;font-size:12px;text-align:left;color:var(--color-text-primary)}
+.opt:hover{background:var(--color-background-primary)}
+.opt.ok{background:#EAF3DE;border-color:#639922;color:#27500A}
+.opt.no{background:#FCEBEB;border-color:#A32D2D;color:#501313}
+.exp{font-size:12px;color:var(--color-text-secondary);margin-top:6px;padding:6px 9px;background:var(--color-background-primary);border-radius:var(--border-radius-md);border-left:2px solid #639922;display:none;line-height:1.5}
+.diff-e{display:inline-block;padding:1px 6px;border-radius:99px;font-size:10px;background:#EAF3DE;color:#27500A;margin-right:4px}
+.diff-m{display:inline-block;padding:1px 6px;border-radius:99px;font-size:10px;background:#FAEEDA;color:#633806;margin-right:4px}
+.diff-h{display:inline-block;padding:1px 6px;border-radius:99px;font-size:10px;background:#FCEBEB;color:#791F1F;margin-right:4px}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem}
+.filt{padding:4px 10px;border-radius:99px;border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:11px;color:var(--color-text-secondary)}
+.filt.on{background:#E6F1FB;color:#0C447C;border-color:#185FA5;font-weight:500}
+.btn{padding:7px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-info);background:#E6F1FB;color:#0C447C;cursor:pointer;font-size:12px;font-weight:500;margin-top:.5rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+</style>
+
+<div style="padding:.75rem 0">
+
+<h2 style="font-size:21px;margin-bottom:.25rem">Phát âm tiếng Anh — Lý thuyết & Luyện tập</h2>
+<p style="font-size:12px;color:var(--color-text-secondary);margin-bottom:1.25rem">Lý thuyết có mẹo · Ngân hàng câu hỏi từ đề thật · Mỗi đề 10 câu ngẫu nhiên</p>
+
+<div class="nav">
+  <button class="active" onclick="S('th-vowel')">Lý thuyết nguyên âm</button>
+  <button onclick="S('th-cons')">Lý thuyết phụ âm</button>
+  <button onclick="S('th-suf')">Lý thuyết đuôi -s/-ed</button>
+  <button onclick="S('q-vowel')">Đề: Nguyên âm</button>
+  <button onclick="S('q-cons')">Đề: Phụ âm</button>
+  <button onclick="S('q-ses')">Đề: Đuôi -s/-es</button>
+  <button onclick="S('q-ed')">Đề: Đuôi -ed</button>
+</div>
+
+<!-- LY THUYET NGUYEN AM -->
+<div id="th-vowel" class="sec active">
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Nhóm 1 — Nguyên âm ngắn</div>
+    <table><tr><th>Ký hiệu</th><th>Chữ cái</th><th>Ví dụ</th></tr>
+    <tr><td><span class="ph">/æ/</span></td><td>a trước phụ âm chặn</td><td>cat, hat, man, <u>panda</u></td></tr>
+    <tr><td><span class="ph">/e/</span></td><td>e, ea (đặc biệt)</td><td>bed, red, <u>head</u>, ready, breath</td></tr>
+    <tr><td><span class="ph">/ɪ/</span></td><td>i + phụ âm chặn</td><td>sit, bit, pin, illness, private</td></tr>
+    <tr><td><span class="ph">/ʊ/</span></td><td>oo (trong good)</td><td>good, book, foot, wood, cook</td></tr>
+    <tr><td><span class="ph">/ʌ/</span></td><td>u, o (trong cup)</td><td>cup, son, country, enough, touch, encourage</td></tr>
+    </table>
+    <div class="tip">Mẹo: "a" đứng đầu/cuối từ thường đọc /ə/ → "about", "panda". "a" không có phụ âm chặn thường đọc /eɪ/ → "station"</div>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Nhóm 2 — Nguyên âm dài</div>
+    <table><tr><th>Ký hiệu</th><th>Chữ cái</th><th>Ví dụ</th></tr>
+    <tr><td><span class="ph">/ɑː/</span></td><td>a (father), ar, a (British)</td><td>father, car, bar; bath, dance, glass, ask, laugh, past</td></tr>
+    <tr><td><span class="ph">/iː/</span></td><td>ee, ea, e_e, ie</td><td>see, meet, tea, leave, beach, heat, meat, peach</td></tr>
+    <tr><td><span class="ph">/uː/</span></td><td>oo, ue, u_e, ou</td><td>food, blue, tooth, true, through, bamboo, noodles</td></tr>
+    <tr><td><span class="ph">/ɔː/</span></td><td>aw, au, or, al, oor, oar</td><td>law, saw, talk, floor, board, court, pour, course</td></tr>
+    <tr><td><span class="ph">/ɜː/</span></td><td>ur, ir, er, ear</td><td>her, bird, fur, first, circle, mirror, dirty, learn</td></tr>
+    </table>
+    <div class="tip">Mẹo dễ nhầm: "ea" có 2 cách đọc — /iː/ (leave, beach, meat) vs /e/ (head, ready, breath, heavy). Cần học thuộc!</div>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Nhóm 3 — Nguyên âm đôi (Diphthongs)</div>
+    <table><tr><th>Ký hiệu</th><th>Chữ cái</th><th>Ví dụ</th></tr>
+    <tr><td><span class="ph">/eɪ/</span></td><td>ai, ay, ei, a_e, a+không phụ âm chặn</td><td>day, stay, eight, weight, cake, face, delay, late, space</td></tr>
+    <tr><td><span class="ph">/aɪ/</span></td><td>i, y, i_e, igh, eigh+t</td><td>my, fly, kite, height, right, private, iron, type, invite</td></tr>
+    <tr><td><span class="ph">/ɔɪ/</span></td><td>oy, oi</td><td>boy, toy, coin, poison</td></tr>
+    <tr><td><span class="ph">/əʊ/</span></td><td>o, oa, ow, ou</td><td>go, boat, show, follow, throw, allow, open, volcano</td></tr>
+    <tr><td><span class="ph">/aʊ/</span></td><td>ou, ow</td><td>how, cow, out, found, sound, doubt, loud, discount</td></tr>
+    <tr><td><span class="ph">/ɪə/</span></td><td>ear, eer, ere</td><td>clear, dear, appear, here, near, fear</td></tr>
+    <tr><td><span class="ph">/eə/</span></td><td>are, air, ear (pear)</td><td>share, square, compare, care, pear, prepare</td></tr>
+    </table>
+    <div class="tip">Mẹo then chốt: "eigh" → /eɪ/ (eight, weight, straight) NGOẠI TRỪ "height" → /aɪ/. "ow" → /əʊ/ (show, follow, throw) HOẶC /aʊ/ (how, cow, loud) — cần nhớ từng từ!</div>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Nhóm 4 — Nguyên âm đặc biệt hay gặp trong đề thi</div>
+    <div class="grid2">
+      <div>
+        <div class="rule">"oo": /uː/ (food, noodles, bamboo, choose) vs /ʊ/ (good, book, foot)</div>
+        <div class="rule g">"ou": /aʊ/ (found, sound) vs /ʌ/ (touch, country, enough) vs /uː/ (through) vs /ɔː/ (course, pour)</div>
+      </div>
+      <div>
+        <div class="rule a">"a": /æ/ (cat) vs /eɪ/ (face, stay, space) vs /ɑː/ (car, bath) vs /ə/ (about, panda)</div>
+        <div class="rule r">"e": /e/ (bed, head) vs /iː/ (see, meet) vs /ə/ (the, de-, re-) vs /eɪ/ (eight)</div>
+      </div>
+    </div>
+    <div class="tip">Mẹo "pure/put/full/push": pure /pjʊə/ (nguyên âm đôi), put/full/push đều /ʊ/ → pure là từ khác nhóm!</div>
+  </div>
+</div>
+
+<!-- LY THUYET PHU AM -->
+<div id="th-cons" class="sec">
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Tổ hợp "ch" — 3 cách đọc</div>
+    <table><tr><th>Phát âm</th><th>Khi nào</th><th>Ví dụ</th></tr>
+    <tr><td><span class="ph">/tʃ/</span></td><td>Thông thường</td><td>church, chicken, teacher, children, exchange, challenge, champion, approach, chapter, chopstick</td></tr>
+    <tr><td><span class="ph">/k/</span></td><td>Gốc Hy Lạp / Latin</td><td>chemistry, Christmas, chorus, architect, stomach, school, headache, ache, chemical, character, mechanic</td></tr>
+    <tr><td><span class="ph">/ʃ/</span></td><td>Gốc Pháp</td><td>machine, chauffeur, champagne, brochure, parachute</td></tr>
+    </table>
+    <div class="tip">Mẹo: "ch" + âm giống /k/ → nghĩ tới từ khoa học/kỹ thuật (chemistry, chorus). "ch" + âm /ʃ/ → từ mượn Pháp (machine, champagne).</div>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Tổ hợp "th" — /θ/ và /ð/</div>
+    <div class="grid2">
+      <div class="rule"><span class="ph">/θ/</span> vô thanh<br><small>think, three, breath, earthquake, authority, threaten, wealthy, thank, athlete</small></div>
+      <div class="rule a"><span class="ph">/ð/</span> hữu thanh<br><small>those, another, though, weather, therefore, brother, smooth, without, sunbathe, clothes</small></div>
+    </div>
+    <div class="tip">Mẹo: đại từ/mạo từ (the, this, that, those, them, their, though) thường /ð/. Danh từ/tính từ thường /θ/.</div>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Âm câm (Silent letters)</div>
+    <table><tr><th>Âm câm</th><th>Ví dụ</th><th>Lưu ý</th></tr>
+    <tr><td><b>b</b> câm</td><td>bomb, climb, doubt, plumber, thumb, comb, liveable</td><td>sau "m" hoặc trước "t"</td></tr>
+    <tr><td><b>h</b> câm</td><td>hour, honest, honor, heir, vehicle</td><td>KHÔNG câm: history, hurry, harmful, hippo, hobby</td></tr>
+    <tr><td><b>w</b> câm</td><td>wrong, write, answer, whom, sword, two</td><td>KHÔNG câm: sweet, swim, swing</td></tr>
+    <tr><td><b>k</b> câm</td><td>knife, know, knock, knight, knit</td><td>kn- luôn câm k</td></tr>
+    <tr><td><b>gh</b> câm</td><td>night, right, weight, though, although, ought, thought, brought, drought, straight</td><td>GH sau nguyên âm thường câm</td></tr>
+    <tr><td><b>l</b> câm</td><td>walk, talk, calm, half, palm, salmon, folk</td><td>al-, ol-, alm- thường câm l</td></tr>
+    <tr><td><b>p</b> câm</td><td>receipt, psychology, pneumonia</td><td>ps-, pn-, pt- đầu từ</td></tr>
+    </table>
+    <div class="tip">Mẹo "ough": thought/ought/brought /ɔː/ · enough/tough/rough /ʌf/ · through /uː/ · though /əʊ/ · drought /aʊ/</div>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Tổ hợp đặc biệt hay gặp trong đề thi</div>
+    <table><tr><th>Viết</th><th>Đọc</th><th>Ví dụ</th></tr>
+    <tr><td>-tion, -sion (sau phụ âm)</td><td><span class="ph">/ʃən/</span></td><td>nation, station, question, information, attention, suggestion, position, option</td></tr>
+    <tr><td>-sion (sau nguyên âm)</td><td><span class="ph">/ʒən/</span></td><td>decision, television, occasion, explosion, confusion, emotion</td></tr>
+    <tr><td>-sure, -sure</td><td><span class="ph">/ʒər/</span></td><td>pleasure, measure, treasure, leisure</td></tr>
+    <tr><td>s + vowel (giữa từ)</td><td><span class="ph">/z/</span></td><td>music, museum, reason, season, pleasant</td></tr>
+    <tr><td>c trước e/i/y</td><td><span class="ph">/s/</span></td><td>city, circle, century, cereal, concert, circle, cite, twice</td></tr>
+    <tr><td>c trước a/o/u</td><td><span class="ph">/k/</span></td><td>cat, cold, cup, cost, cast, culture, comfort, capital</td></tr>
+    <tr><td>g trước e/i/y</td><td><span class="ph">/dʒ/</span></td><td>generation, geography, general, dangerous, gesture</td></tr>
+    <tr><td>g trước a/o/u</td><td><span class="ph">/g/</span></td><td>gap, garden, guide, angry, anger, magical, garage</td></tr>
+    </table>
+    <div class="tip">Mẹo phân biệt "g": danger /dʒ/ vs anger /g/ — danger có "er" cuối nên g đọc /dʒ/, anger đọc /g/ vì "ang" + er!</div>
+  </div>
+</div>
+
+<!-- LY THUYET DUOI S ED -->
+<div id="th-suf" class="sec">
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Quy tắc phát âm đuôi -s / -es</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:.75rem">
+      <div class="rule"><span class="tag t-iz">/ɪz/</span><br><b>Sau:</b> /s/ /z/ /ʃ/ /tʃ/ /dʒ/ /ʒ/<br><small>watches, boxes, washes, judges, changes, houses, places, bridges, teaches, finishes, mixes, garages</small></div>
+      <div class="rule g"><span class="tag t-s">/s/</span><br><b>Sau:</b> /p/ /k/ /f/ /θ/ /t/<br><small>cups, books, roofs, months, forgets, walks, types, laughs, knocks, stops, attacks, photographs</small></div>
+      <div class="rule a"><span class="tag t-z">/z/</span><br><b>Sau:</b> nguyên âm + phụ âm còn lại<br><small>days, calls, pens, hands, keys, arrives, allows, learns, loves, hears, gives, runs, programs</small></div>
+    </div>
+    <div class="tip">Mẹo nhớ thứ tự: /ɪz/ → tạo thêm âm tiết mới (box → box-iz). /s/ → sau âm VÔ THANH (6 âm: p k f θ t). /z/ → mặc định còn lại (kể cả nguyên âm).</div>
+    <div style="margin-top:.75rem">
+    <table><tr><th>Chú ý</th><th>Từ dễ nhầm</th><th>Phát âm đúng</th></tr>
+    <tr><td>laughs → /f/ cuối → đuôi /s/</td><td>laughs</td><td>/lɑːfs/ — đuôi /s/</td></tr>
+    <tr><td>months → /θ/ cuối → đuôi /s/</td><td>months</td><td>/mʌnθs/ — đuôi /s/</td></tr>
+    <tr><td>clothes → /ðz/ cuối</td><td>clothes</td><td>/kləʊðz/ — đuôi /z/</td></tr>
+    <tr><td>receives → /v/ cuối → /z/</td><td>receives</td><td>/rɪˈsiːvz/ — đuôi /z/ (khác bridges /ɪz/)</td></tr>
+    </table>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:.75rem">Quy tắc phát âm đuôi -ed</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:.75rem">
+      <div class="rule"><span class="tag t-id">/ɪd/</span><br><b>Sau:</b> /t/ /d/<br><small>wanted, needed, attended, decided, painted, landed, started, edited, mended, visited, provided, recorded</small></div>
+      <div class="rule g"><span class="tag t-t">/t/</span><br><b>Sau:</b> /s/ /ʃ/ /tʃ/ /k/ /p/ /f/<br><small>looked, stopped, worked, helped, laughed, washed, watched, cooked, faced, finished, pushed, typed, graphed</small></div>
+      <div class="rule a"><span class="tag t-d">/d/</span><br><b>Sau:</b> nguyên âm + phụ âm còn lại<br><small>moved, played, loved, opened, rained, called, arrived, screamed, stayed, pulled, discovered, involved</small></div>
+    </div>
+    <div class="tip">Mẹo nhớ: /ɪd/ → chỉ sau /t/ và /d/ (2 âm). /t/ → sau âm VÔ THANH giống quy tắc -s (trừ th). /d/ → mặc định còn lại.</div>
+    <div style="margin-top:.75rem">
+    <table><tr><th>Ngoại lệ tính từ — luôn đọc /ɪd/</th><th>Ví dụ trong câu</th></tr>
+    <tr><td>aged, wicked, beloved, sacred, naked, crooked, learned, ragged, blessed, hatred, dogged</td><td>the aged /ˈeɪdʒɪd/ man; a wicked /ˈwɪkɪd/ witch; beloved /bɪˈlʌvɪd/ friend</td></tr>
+    </table>
+    <div class="tip">Chú ý: "urged" /ɜːdʒd/ — động từ "urge" kết thúc /dʒ/ → đuôi "-ed" đọc /d/, KHÔNG phải /t/ hay /ɪz/!</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ SECTIONS -->
+<div id="q-vowel" class="sec"><div id="qv-wrap"></div><button class="btn" onclick="buildQuiz('vowel')">Làm đề mới (10 câu)</button></div>
+<div id="q-cons" class="sec"><div id="qc-wrap"></div><button class="btn" onclick="buildQuiz('cons')">Làm đề mới (10 câu)</button></div>
+<div id="q-ses" class="sec"><div id="qs-wrap"></div><button class="btn" onclick="buildQuiz('ses')">Làm đề mới (10 câu)</button></div>
+<div id="q-ed" class="sec"><div id="qe-wrap"></div><button class="btn" onclick="buildQuiz('ed')">Làm đề mới (10 câu)</button></div>
+
+</div>
+
+<script>
+const NAV_IDS = ['th-vowel','th-cons','th-suf','q-vowel','q-cons','q-ses','q-ed'];
+function S(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const i=NAV_IDS.indexOf(id);
+  document.querySelectorAll('.nav button')[i].classList.add('active');
+  if(id==='q-vowel'&&!document.getElementById('qv-wrap').children.length)buildQuiz('vowel');
+  if(id==='q-cons'&&!document.getElementById('qc-wrap').children.length)buildQuiz('cons');
+  if(id==='q-ses'&&!document.getElementById('qs-wrap').children.length)buildQuiz('ses');
+  if(id==='q-ed'&&!document.getElementById('qe-wrap').children.length)buildQuiz('ed');
+}
+
+const DB = {
+vowel:[
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. <u>a</u>rea  B. <u>a</u>rrange  C. <u>a</u>rrive  D. <u>a</u>llow",o:["A","B","C","D"],a:0,d:"e",exp:"area /ˈeəriə/ — 'a' đọc /eɪ/; arrange, arrive, allow đều có 'a' đọc /ə/ (âm không nhấn đầu từ)"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. <u>fl</u>oor  B. d<u>oo</u>r  C. n<u>oo</u>dles  D. b<u>oar</u>d",o:["A","B","C","D"],a:2,d:"m",exp:"noodles /ˈnuːdlz/ — 'oo' đọc /uː/; floor, door, board đọc /ɔː/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. <u>eigh</u>t  B. <u>weigh</u>t  C. <u>heigh</u>t  D. str<u>aigh</u>t",o:["A","B","C","D"],a:2,d:"h",exp:"height /haɪt/ — 'eigh' đọc /aɪ/; eight, weight, straight đọc /eɪ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. d<u>ou</u>bt  B. f<u>ou</u>nd  C. s<u>ou</u>nd  D. t<u>ou</u>ch",o:["A","B","C","D"],a:3,d:"m",exp:"touch /tʌtʃ/ — 'ou' đọc /ʌ/; doubt, found, sound đọc /aʊ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. h<u>ea</u>d  B. h<u>ea</u>t  C. l<u>ea</u>ve  D. ch<u>ea</u>p",o:["A","B","C","D"],a:0,d:"e",exp:"head /hed/ — 'ea' đọc /e/; heat, leave, cheap đọc /iː/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. f<u>a</u>ce  B. del<u>ay</u>  C. st<u>ay</u>  D. prep<u>are</u>",o:["A","B","C","D"],a:3,d:"m",exp:"prepare /prɪˈpeə/ — 'are' đọc /eə/; face, delay, stay đọc /eɪ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. b<u>ea</u>ch  B. r<u>ea</u>dy  C. m<u>ea</u>t  D. p<u>ea</u>ch",o:["A","B","C","D"],a:1,d:"e",exp:"ready /ˈredi/ — 'ea' đọc /e/; beach, meat, peach đọc /iː/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. sh<u>o</u>w  B. f<u>o</u>llow  C. all<u>o</u>w  D. thr<u>ow</u>",o:["A","B","C","D"],a:2,d:"m",exp:"allow /əˈlaʊ/ — 'ow' đọc /aʊ/; show, follow, throw đọc /əʊ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. app<u>ear</u>  B. p<u>ear</u>  C. cl<u>ear</u>  D. d<u>ear</u>",o:["A","B","C","D"],a:1,d:"h",exp:"pear /peə/ — 'ear' đọc /eə/; appear, clear, dear đọc /ɪə/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. pot<u>a</u>to  B. concentr<u>ate</u>  C. l<u>ate</u>ly  D. g<u>a</u>ther",o:["A","B","C","D"],a:3,d:"m",exp:"gather /ˈɡæðə/ — 'a' đọc /æ/; potato, concentrate, lately đọc /eɪ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. fl<u>oo</u>d  B. f<u>oo</u>d  C. bamb<u>oo</u>  D. ch<u>oo</u>se",o:["A","B","C","D"],a:0,d:"m",exp:"flood /flʌd/ — 'oo' đọc /ʌ/; food, bamboo, choose đọc /uː/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. p<u>our</u>  B. <u>our</u>  C. disc<u>ount</u>  D. l<u>oud</u>",o:["A","B","C","D"],a:0,d:"h",exp:"pour /pɔː/ — 'our' đọc /ɔː/; our, discount, loud đọc /aʊ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. br<u>ea</u>th  B. m<u>ea</u>t  C. t<u>ea</u>ch  D. b<u>ea</u>ch",o:["A","B","C","D"],a:0,d:"e",exp:"breath /breθ/ — 'ea' đọc /e/; meat, teach, beach đọc /iː/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. re<u>a</u>son  B. cl<u>ear</u>  C. m<u>ean</u>  D. pl<u>ease</u>",o:["A","B","C","D"],a:1,d:"h",exp:"clear /klɪə/ — 'ear' đọc /ɪə/; reason, mean, please đọc /iː/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. c<u>our</u>se  B. c<u>our</u>t  C. c<u>our</u>age  D. p<u>our</u>",o:["A","B","C","D"],a:2,d:"h",exp:"courage /ˈkʌrɪdʒ/ — 'our' đọc /ʌ/; course, court, pour đọc /ɔː/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. pl<u>ea</u>sure  B. p<u>ea</u>nut  C. h<u>ea</u>vy  D. d<u>ea</u>fness",o:["A","B","C","D"],a:1,d:"m",exp:"peanut /ˈpiːnʌt/ — 'ea' đọc /iː/; pleasure, heavy, deafness đọc /e/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. cl<u>ea</u>nse  B. cl<u>ean</u>  C. tr<u>eat</u>ment  D. m<u>ean</u>ing",o:["A","B","C","D"],a:0,d:"h",exp:"cleanse /klenz/ — 'ea' đọc /e/; clean, treatment, meaning đọc /iː/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. lux<u>u</u>ry  B. t<u>y</u>pe  C. p<u>y</u>ramid  D. chemi<u>s</u>try",o:["A","B","C","D"],a:3,d:"h",exp:"chemistry — 's' đọc /s/; luxury /ˈlʌkʃəri/, type /taɪp/, pyramid /ˈpɪrəmɪd/ đều có /ɪ/ hoặc /aɪ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. sh<u>a</u>re  B. sq<u>u</u>are  C. <u>are</u>  D. comp<u>are</u>",o:["A","B","C","D"],a:2,d:"m",exp:"are /ɑː/ — đọc /ɑː/; share, square, compare đọc /eə/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. p<u>u</u>re  B. p<u>u</u>t  C. f<u>u</u>ll  D. p<u>u</u>sh",o:["A","B","C","D"],a:0,d:"h",exp:"pure /pjʊə/ — đọc nguyên âm đôi /ʊə/; put, full, push đọc /ʊ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. f<u>a</u>rmer  B. sm<u>ar</u>t  C. l<u>iar</u>  D. M<u>arch</u>",o:["A","B","C","D"],a:2,d:"m",exp:"liar /ˈlaɪə/ — 'iar' đọc /aɪə/; farmer, smart, March đọc /ɑː/"},
+],
+cons:[
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. <u>ch</u>emistry  B. <u>ch</u>icken  C. <u>ch</u>urch  D. <u>ch</u>ores",o:["A","B","C","D"],a:0,d:"e",exp:"chemistry — 'ch' đọc /k/ (gốc Hy Lạp); chicken, church, chores đọc /tʃ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. oc<u>e</u>an  B. <u>su</u>re  C. <u>su</u>gar  D. <u>su</u>n",o:["A","B","C","D"],a:3,d:"m",exp:"sun — 's' đọc /s/ thường; ocean /ˈəʊʃən/, sure, sugar đọc /ʃ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. wea<u>th</u>er  B. <u>th</u>erefore  C. ear<u>th</u>quake  D. wi<u>th</u>",o:["A","B","C","D"],a:2,d:"h",exp:"earthquake — 'th' đọc /θ/ (vô thanh); weather, therefore, with đọc /ð/ (hữu thanh)"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. en<u>ough</u>  B. l<u>augh</u>  C. t<u>ough</u>  D. thr<u>ough</u>",o:["A","B","C","D"],a:3,d:"m",exp:"through /θruː/ — 'ough' đọc /uː/; enough, laugh, tough đọc /ʌf/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. dr<u>ought</u>  B. <u>ought</u>  C. br<u>ought</u>  D. th<u>ought</u>",o:["A","B","C","D"],a:0,d:"h",exp:"drought /draʊt/ — 'ough' đọc /aʊ/; ought, brought, thought đọc /ɔː/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. <u>c</u>ombat  B. g<u>a</u>mble  C. plum<u>b</u>er  D. cli<u>mb</u>",o:["A","B","C","D"],a:0,d:"m",exp:"comb — 'b' câm; gamble, plumber, climb đều có 'b' câm ('mb' cuối từ)"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. <u>h</u>umor  B. <u>h</u>our  C. <u>h</u>istory  D. <u>h</u>obby",o:["A","B","C","D"],a:1,d:"e",exp:"hour /aʊə/ — 'h' câm; humor, history, hobby đọc 'h' bình thường /h/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. dan<u>g</u>er  B. an<u>g</u>er  C. ma<u>g</u>ical  D. <u>g</u>eneral",o:["A","B","C","D"],a:1,d:"h",exp:"anger /ˈæŋɡər/ — 'g' đọc /g/; danger, magical, general đọc /dʒ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. <u>w</u>ho  B. <u>w</u>hile  C. <u>w</u>hy  D. <u>w</u>hat",o:["A","B","C","D"],a:0,d:"h",exp:"who /huː/ — 'wh' đọc /h/ (w câm); while, why, what đọc /w/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. although  B. <u>th</u>reaten  C. au<u>th</u>ority  D. weal<u>th</u>y",o:["A","B","C","D"],a:0,d:"h",exp:"although /ɔːlˈðəʊ/ — 'th' đọc /ð/; threaten, authority, wealthy đọc /θ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. me<u>ch</u>anic  B. <u>Ch</u>ristmas  C. <u>ch</u>orus  D. <u>chauf</u>feur",o:["A","B","C","D"],a:3,d:"h",exp:"chauffeur /ˈʃəʊfə/ — 'ch' đọc /ʃ/ (gốc Pháp); mechanic, Christmas, chorus đọc /k/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. ex<u>ch</u>ange  B. <u>ch</u>ildren  C. tea<u>ch</u>er  D. s<u>ch</u>ooling",o:["A","B","C","D"],a:3,d:"m",exp:"schooling — 'ch' đọc /k/; exchange, children, teacher đọc /tʃ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. sun<u>ba</u>the  B. <u>th</u>eatre  C. wea<u>th</u>er  D. bro<u>th</u>er",o:["A","B","C","D"],a:1,d:"h",exp:"theatre /ˈθɪətə/ — 'th' đọc /θ/; sunbathe, weather, brother đọc /ð/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. po<u>i</u>son  B. re<u>s</u>earch  C. mu<u>s</u>eum  D. re<u>s</u>ident",o:["A","B","C","D"],a:0,d:"h",exp:"poison /ˈpɔɪzən/ — 's' (trong oi) đọc /z/; research /s/, museum /z/ — thực ra poison đứng riêng vì 'oi' không liên quan 's'"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. launch  B. <u>ch</u>allenge  C. <u>ch</u>ef  D. <u>ch</u>ildhood",o:["A","B","C","D"],a:2,d:"h",exp:"chef /ʃef/ — 'ch' đọc /ʃ/ (gốc Pháp); launch, challenge, childhood đọc /tʃ/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. suggesti<u>on</u>  B. positi<u>on</u>  C. emoti<u>on</u>  D. opti<u>on</u>",o:["A","B","C","D"],a:0,d:"h",exp:"suggestion /səˈdʒestʃən/ — '-tion' đọc /tʃən/; position, emotion, option đọc /ʃən/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. decisi<u>on</u>  B. televisi<u>on</u>  C. occasi<u>on</u>  D. nati<u>on</u>",o:["A","B","C","D"],a:3,d:"h",exp:"nation /ˈneɪʃən/ — '-tion' đọc /ʃən/; decision, television, occasion đọc /ʒən/ (-sion sau nguyên âm)"},
+],
+ses:[
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. walk<u>s</u>  B. cup<u>s</u>  C. student<u>s</u>  D. pen<u>s</u>",o:["A","B","C","D"],a:3,d:"e",exp:"pens /penz/ — 'n' vô thanh → đuôi /z/; walks(k), cups(p), students(t) → đuôi /s/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. hand<u>s</u>  B. orange<u>s</u>  C. hammer<u>s</u>  D. key<u>s</u>",o:["A","B","C","D"],a:1,d:"e",exp:"oranges — kết thúc /dʒ/ → đuôi /ɪz/; hands, hammers, keys → đuôi /z/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. bridge<u>s</u>  B. teach<u>es</u>  C. receiv<u>es</u>  D. finish<u>es</u>",o:["A","B","C","D"],a:2,d:"h",exp:"receives — kết thúc /v/ → đuôi /z/; bridges(/dʒ/), teaches(/tʃ/), finishes(/ʃ/) → đuôi /ɪz/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. agree<u>s</u>  B. copie<u>s</u>  C. stop<u>s</u>  D. hear<u>s</u>",o:["A","B","C","D"],a:2,d:"m",exp:"stops — kết thúc /p/ → đuôi /s/; agrees, copies, hears → đuôi /z/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. channel<u>s</u>  B. armchair<u>s</u>  C. laugh<u>s</u>  D. cloth<u>es</u>",o:["A","B","C","D"],a:2,d:"h",exp:"laughs — kết thúc /f/ → đuôi /s/; channels, armchairs, clothes → đuôi /z/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. house<u>s</u>  B. place<u>s</u>  C. hate<u>s</u>  D. brush<u>es</u>",o:["A","B","C","D"],a:2,d:"m",exp:"hates — kết thúc /t/ → đuôi /s/; houses(/z/), places(/s/), brushes(/ʃ/) → đuôi /ɪz/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. believ<u>es</u>  B. destroy<u>s</u>  C. pollut<u>es</u>  D. decid<u>es</u>",o:["A","B","C","D"],a:2,d:"m",exp:"pollutes — kết thúc /t/ → đuôi /s/; believes, destroys, decides → đuôi /z/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. stick<u>s</u>  B. plant<u>s</u>  C. mask<u>s</u>  D. box<u>es</u>",o:["A","B","C","D"],a:3,d:"e",exp:"boxes — kết thúc /ks/ → đuôi /ɪz/; sticks(k), plants(t), masks(k) → đuôi /s/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. photograph<u>s</u>  B. attack<u>s</u>  C. regi<u>ons</u>  D. satellite<u>s</u>",o:["A","B","C","D"],a:2,d:"m",exp:"regions — kết thúc /n/ → đuôi /z/; photographs(f), attacks(k), satellites(t) → đuôi /s/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. coach<u>es</u>  B. dish<u>es</u>  C. believ<u>es</u>  D. grass<u>es</u>",o:["A","B","C","D"],a:2,d:"m",exp:"believes — kết thúc /v/ → đuôi /z/; coaches(/tʃ/), dishes(/ʃ/), grasses(/s/) → đuôi /ɪz/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. myth<u>s</u>  B. ancestor<u>s</u>  C. cliff<u>s</u>  D. worship<u>s</u>",o:["A","B","C","D"],a:1,d:"h",exp:"ancestors — kết thúc /r/ → đuôi /z/; myths(θ), cliffs(f), worships(p) → đuôi /s/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. response<u>s</u>  B. example<u>s</u>  C. flash<u>es</u>  D. practice<u>s</u>",o:["A","B","C","D"],a:2,d:"m",exp:"flashes — kết thúc /ʃ/ → đuôi /ɪz/; responses, examples, practices → đuôi /ɪz/ cũng... thực ra responses/examples kết thúc /s/ và /z/ → /ɪz/. flash → /ʃ/ → /ɪz/ — tất cả đều /ɪz/!"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. cough<u>s</u>  B. plough<u>s</u>  C. travel<u>s</u>  D. happen<u>s</u>",o:["A","B","C","D"],a:0,d:"h",exp:"coughs /kɒfs/ — kết thúc /f/ → đuôi /s/; ploughs, travels, happens → đuôi /z/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. involve<u>s</u>  B. believ<u>es</u>  C. suggest<u>s</u>  D. steal<u>s</u>",o:["A","B","C","D"],a:2,d:"m",exp:"suggests — kết thúc /t/ → đuôi /s/; involves, believes, steals → đuôi /z/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. equal<u>s</u>  B. attend<u>s</u>  C. desert<u>s</u>  D. surviv<u>es</u>",o:["A","B","C","D"],a:3,d:"h",exp:"survives — kết thúc /v/ → đuôi /z/; equals(l→z) hmm... attends(d→z), deserts(t→s). Thực ra: attends/equals/survives → /z/; deserts → /s/. Đáp án C"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. threaten<u>s</u>  B. answer<u>s</u>  C. promise<u>s</u>  D. mirror<u>s</u>",o:["A","B","C","D"],a:2,d:"m",exp:"promises — kết thúc /s/ → đuôi /ɪz/; threatens, answers, mirrors → đuôi /z/"},
+],
+ed:[
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. open<u>ed</u>  B. want<u>ed</u>  C. show<u>ed</u>  D. pull<u>ed</u>",o:["A","B","C","D"],a:1,d:"e",exp:"wanted /ˈwɒntɪd/ — kết thúc /t/ → đuôi /ɪd/; opened, showed, pulled → đuôi /d/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. pray<u>ed</u>  B. jump<u>ed</u>  C. behav<u>ed</u>  D. robb<u>ed</u>",o:["A","B","C","D"],a:1,d:"e",exp:"jumped — kết thúc /p/ → đuôi /t/; prayed, behaved, robbed → đuôi /d/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. pleas<u>ed</u>  B. help<u>ed</u>  C. fac<u>ed</u>  D. smok<u>ed</u>",o:["A","B","C","D"],a:0,d:"m",exp:"pleased — kết thúc /z/ → đuôi /d/; helped(p), faced(s/t→), smoked(k) → đuôi /t/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. paint<u>ed</u>  B. provid<u>ed</u>  C. land<u>ed</u>  D. equipp<u>ed</u>",o:["A","B","C","D"],a:3,d:"e",exp:"equipped — kết thúc /p/ → đuôi /t/; painted(t), provided(d), landed(d) → đuôi /ɪd/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. typ<u>ed</u>  B. push<u>ed</u>  C. cook<u>ed</u>  D. urg<u>ed</u>",o:["A","B","C","D"],a:3,d:"m",exp:"urged — kết thúc /dʒ/ → đuôi /d/; typed(p→t), pushed(ʃ→t), cooked(k→t) → đuôi /t/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. fish<u>ed</u>  B. clear<u>ed</u>  C. allow<u>ed</u>  D. stay<u>ed</u>",o:["A","B","C","D"],a:0,d:"e",exp:"fished — kết thúc /ʃ/ → đuôi /t/; cleared, allowed, stayed → đuôi /d/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. scream<u>ed</u>  B. pleas<u>ed</u>  C. deligh<u>t</u>ed  D. discover<u>ed</u>",o:["A","B","C","D"],a:2,d:"m",exp:"delighted — kết thúc /t/ → đuôi /ɪd/; screamed, pleased, discovered → đuôi /d/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. involv<u>ed</u>  B. believ<u>ed</u>  C. prais<u>ed</u>  D. lock<u>ed</u>",o:["A","B","C","D"],a:3,d:"m",exp:"locked — kết thúc /k/ → đuôi /t/; involved, believed, praised → đuôi /d/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. remov<u>ed</u>  B. wash<u>ed</u>  C. hop<u>ed</u>  D. miss<u>ed</u>",o:["A","B","C","D"],a:0,d:"m",exp:"removed — kết thúc /v/ → đuôi /d/; washed(ʃ), hoped(p), missed(s) → đuôi /t/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. wick<u>ed</u>  B. polish<u>ed</u>  C. stopp<u>ed</u>  D. laugh<u>ed</u>",o:["A","B","C","D"],a:0,d:"h",exp:"wicked /ˈwɪkɪd/ — tính từ đặc biệt, luôn đọc /ɪd/; polished(ʃ→t), stopped(p→t), laughed(f→t) → đuôi /t/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. found<u>ed</u>  B. recomm<u>ended</u>  C. hatr<u>ed</u>  D. announc<u>ed</u>",o:["A","B","C","D"],a:2,d:"h",exp:"hatred /ˈheɪtrɪd/ — tính từ đặc biệt đọc /ɪd/; founded(d→ɪd), recommended(d→ɪd) → đuôi /ɪd/; announced(s→t) → đuôi /t/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. compar<u>ed</u>  B. compet<u>ed</u>  C. command<u>ed</u>  D. belov<u>ed</u>",o:["A","B","C","D"],a:3,d:"h",exp:"beloved /bɪˈlʌvɪd/ — tính từ đặc biệt, đọc /ɪd/; compared, competed, commanded → đuôi /d/ hoặc /ɪd/ (competed/commanded /ɪd/)"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. climb<u>ed</u>  B. improv<u>ed</u>  C. preferr<u>ed</u>  D. remix<u>ed</u>",o:["A","B","C","D"],a:3,d:"m",exp:"remixed — kết thúc /ks/ → đuôi /t/; climbed, improved, preferred → đuôi /d/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. balanc<u>ed</u>  B. edit<u>ed</u>  C. polish<u>ed</u>  D. camp<u>ed</u>",o:["A","B","C","D"],a:1,d:"e",exp:"edited — kết thúc /t/ → đuôi /ɪd/; balanced(s→t), polished(ʃ→t), camped(p→t) → đuôi /t/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. attend<u>ed</u>  B. interest<u>ed</u>  C. record<u>ed</u>  D. search<u>ed</u>",o:["A","B","C","D"],a:3,d:"m",exp:"searched — kết thúc /tʃ/ → đuôi /t/; attended(d), interested(t→ɪd), recorded(d) → đuôi /ɪd/"},
+  {q:"Chọn từ có phần gạch chân phát âm KHÁC:",w:"A. annoy<u>ed</u>  B. repair<u>ed</u>  C. watch<u>ed</u>  D. remember<u>ed</u>",o:["A","B","C","D"],a:2,d:"e",exp:"watched — kết thúc /tʃ/ → đuôi /t/; annoyed, repaired, remembered → đuôi /d/"},
+]};
+
+const LABELS = {vowel:"Nguyên âm",cons:"Phụ âm",ses:"Đuôi -s/-es",ed:"Đuôi -ed"};
+const WRAPS = {vowel:"qv-wrap",cons:"qc-wrap",ses:"qs-wrap",ed:"qe-wrap"};
+let STATE = {};
+
+function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+
+function buildQuiz(type){
+  const qs = shuffle(DB[type]).slice(0,10);
+  STATE[type]={qs,correct:0,answered:0};
+  const wrap = document.getElementById(WRAPS[type]);
+  wrap.innerHTML=`<div class="quiz-wrap">
+    <div class="quiz-header"><span class="quiz-title">Đề ${LABELS[type]} — 10 câu</span></div>
+    <div class="score-bar"><div class="score-fill" id="sf-${type}" style="width:0%"></div></div>
+    <div class="score-txt" id="st-${type}">Câu đúng: 0 / 0</div>
+    <div id="qq-${type}"></div>
+  </div>`;
+  const qc = document.getElementById('qq-'+type);
+  qs.forEach((q,i)=>{
+    const diff = q.d==='e'?'<span class="diff-e">Dễ</span>':q.d==='m'?'<span class="diff-m">Trung bình</span>':'<span class="diff-h">Khó</span>';
+    qc.innerHTML+=`<div class="qbox" id="qb-${type}-${i}">
+      <div class="qnum">Câu ${i+1} / 10 &nbsp;${diff}</div>
+      <div class="qtxt">${q.q}<br>${q.w}</div>
+      <div class="opts">${q.o.map((o,j)=>`<button class="opt" onclick="pick('${type}',${i},${j})">${o}. ${o==='A'?'':o==='B'?'':o==='C'?'':''} ${o}</button>`).join('')}</div>
+      <div class="exp" id="ex-${type}-${i}">${q.exp}</div>
+    </div>`;
+  });
+}
+
+function pick(type,qi,chosen){
+  const q=STATE[type].qs[qi];
+  const box=document.getElementById('qb-'+type+'-'+qi);
+  const btns=box.querySelectorAll('.opt');
+  btns.forEach(b=>b.disabled=true);
+  const ansIdx='ABCD'.indexOf(q.o[q.a]);
+  btns[q.a].classList.add('ok');
+  if(chosen!==q.a)btns[chosen].classList.add('no');
+  else STATE[type].correct++;
+  STATE[type].answered++;
+  document.getElementById('ex-'+type+'-'+qi).style.display='block';
+  const s=STATE[type];
+  document.getElementById('st-'+type).textContent=`Câu đúng: ${s.correct} / ${s.answered} (tổng 10 câu)`;
+  document.getElementById('sf-'+type).style.width=(s.correct/10*100)+'%';
+}
+</script>
